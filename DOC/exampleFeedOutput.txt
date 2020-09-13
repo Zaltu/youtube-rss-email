@@ -1,0 +1,122 @@
+{'author': 'PewDiePie',
+ 'author_detail': {'href': 'https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw',
+                   'name': 'PewDiePie'},
+ 'authors': [{'href': 'https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw',     
+              'name': 'PewDiePie'}],
+ 'guidislink': True,
+ 'href': '',
+ 'id': 'yt:video:__So8JEIfxA',
+ 'link': 'https://www.youtube.com/watch?v=__So8JEIfxA',
+ 'links': [{'href': 'https://www.youtube.com/watch?v=__So8JEIfxA',
+            'rel': 'alternate',
+            'type': 'text/html'}],
+ 'media_community': '',
+ 'media_content': [{'height': '390',
+                    'type': 'application/x-shockwave-flash',
+                    'url': 'https://www.youtube.com/v/__So8JEIfxA?version=3',
+                    'width': '640'}],
+ 'media_starrating': {'average': '4.98',
+                      'count': '279269',
+                      'max': '5',
+                      'min': '1'},
+ 'media_statistics': {'views': '1471279'},
+ 'media_thumbnail': [{'height': '360',
+                      'url': 'https://i4.ytimg.com/vi/__So8JEIfxA/hqdefault.jpg',
+                      'width': '480'}],
+ 'published': '2020-09-13T15:31:03+00:00',
+ 'published_parsed': time.struct_time(tm_year=2020, tm_mon=9, tm_mday=13, tm_hour=15, tm_min=31, tm_sec=3, tm_wday=6, tm_yday=257, tm_isdst=0),
+ 'summary': 'Reacting to child not epic\n'
+            'Floor Gang Merch! https://represent.com/store/pewdiepie (Thank '
+            'you)\n'
+            'Subscribe to become a FLOOR GANG Member here: '
+            'https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw/join\n'
+            'Get exclusive epic pewdiepie inside epic access and huge PP!\n'
+            '\n'
+            'Outro: add Just Die Already as wishlist #ad: '
+            'https://store.steampowered.com/app/979070/Just_Die_Already/\n'
+            '\n'
+            'And Check out https://youtu.be/FQgLsYOKP8w Arkade Blaster Pro! '
+            '#ad\n'
+            '\n'
+            "Pewdiepie's Pixelings DOWNLOAD:\n"
+            'iOS: https://buff.ly/2pNG0aT\n'
+            'Android: https://buff.ly/34C68nZ\n'
+            '#pewdiepie #pixelings\n'
+            '\n'
+            'Minecraft Playlist:\n'
+            'https://www.youtube.com/watch?v=mhgS6...\n'
+            '\n'
+            'My Stores:\n'
+            'TSUKI:\n'
+            'https://tsuki.market/\n'
+            'Merch:\n'
+            'https://represent.com/store/pewdiepie\n'
+            '\n'
+            'I drink GFUEL (affiliate link):\n'
+            'https://gfuel.ly/31Kargr\n'
+            '\n'
+            'My Setup (affiliate links):\n'
+            'Chair: https://clutchchairz.com/pewdiepie/\n'
+            'Official Razer hardware:\n'
+            'Razer Nari Ultimate headset: http://rzr.to/pdp-razer-nari \n'
+            'Razer Customs phone cases: http://rzr.to/pdp-razer-case\n'
+            '\n'
+            'NordVPN DOWNLOAD (affiliate link):\n'
+            'Go to https://NordVPN.com/pewdiepie and use code PEWDIEPIE to get '
+            '68% off a 2 year plan plus 1 additional month free.',
+ 'summary_detail': {'base': 'https://www.youtube.com/feeds/videos.xml?channel_id=UC-lHJZR3Gqxm24_Vd_AJ5Yw',
+                    'language': None,
+                    'type': 'text/html',
+                    'value': 'Reacting to child not epic\n'
+                             'Floor Gang Merch! '
+                             'https://represent.com/store/pewdiepie (Thank '
+                             'you)\n'
+                             'Subscribe to become a FLOOR GANG Member here: '
+                             'https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw/join\n'
+                             'Get exclusive epic pewdiepie inside epic access '
+                             'and huge PP!\n'
+                             '\n'
+                             'Outro: add Just Die Already as wishlist #ad: '
+                             'https://store.steampowered.com/app/979070/Just_Die_Already/\n'
+                             '\n'
+                             'And Check out https://youtu.be/FQgLsYOKP8w '
+                             'Arkade Blaster Pro! #ad\n'
+                             '\n'
+                             "Pewdiepie's Pixelings DOWNLOAD:\n"
+                             'iOS: https://buff.ly/2pNG0aT\n'
+                             'Android: https://buff.ly/34C68nZ\n'
+                             '#pewdiepie #pixelings\n'
+                             '\n'
+                             'Minecraft Playlist:\n'
+                             'https://www.youtube.com/watch?v=mhgS6...\n'
+                             '\n'
+                             'My Stores:\n'
+                             'TSUKI:\n'
+                             'https://tsuki.market/\n'
+                             'Merch:\n'
+                             'https://represent.com/store/pewdiepie\n'
+                             '\n'
+                             'I drink GFUEL (affiliate link):\n'
+                             'https://gfuel.ly/31Kargr\n'
+                             '\n'
+                             'My Setup (affiliate links):\n'
+                             'Chair: https://clutchchairz.com/pewdiepie/\n'
+                             'Official Razer hardware:\n'
+                             'Razer Nari Ultimate headset: '
+                             'http://rzr.to/pdp-razer-nari \n'
+                             'Razer Customs phone cases: '
+                             'http://rzr.to/pdp-razer-case\n'
+                             '\n'
+                             'NordVPN DOWNLOAD (affiliate link):\n'
+                             'Go to https://NordVPN.com/pewdiepie and use code '
+                             'PEWDIEPIE to get 68% off a 2 year plan plus 1 '
+                             'additional month free.'},
+ 'title': 'Reacting to Our Child...',
+ 'title_detail': {'base': 'https://www.youtube.com/feeds/videos.xml?channel_id=UC-lHJZR3Gqxm24_Vd_AJ5Yw',
+                  'language': None,
+                  'type': 'text/plain',
+                  'value': 'Reacting to Our Child...'},
+ 'updated': '2020-09-13T15:31:04+00:00',
+ 'updated_parsed': time.struct_time(tm_year=2020, tm_mon=9, tm_mday=13, tm_hour=15, tm_min=31, tm_sec=4, tm_wday=6, tm_yday=257, tm_isdst=0),
+ 'yt_channelid': 'UC-lHJZR3Gqxm24_Vd_AJ5Yw',
+ 'yt_videoid': '__So8JEIfxA'}
