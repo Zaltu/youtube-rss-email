@@ -1,0 +1,5 @@
+# Ignore secrets
+*.secret
+
+# Ignore compiled python
+__pycache__/

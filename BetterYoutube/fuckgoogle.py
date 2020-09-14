@@ -10,24 +10,21 @@ from pprint import pprint as pp
 
 import feedparser
 
+from BetterYoutube import youtube_utils
 #import stmp handler TODO
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
+SUB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "subscriptions.json"))
+
 with open(STATE_PATH, 'r+') as STATEFILE:
     ACTIVE_STATE = json.load(STATEFILE)
+
+with open(SUB_PATH, 'r+') as SUBFILE:
+    SUBSCRIPTIONS = json.load(SUBFILE)
 
 SHUTDOWN_EVENT = Event()
 
 BASE_URL = "https://www.youtube.com/feeds/videos.xml?channel_id="
-
-SUBSCRIPTIONS = {
-    "pewdiepie": {
-        "channel_id": "UC-lHJZR3Gqxm24_Vd_AJ5Yw",
-        "subs": [
-            "swwouf@hotmail.com"
-        ]
-    }
-}
 
 
 class BetterYoutube():
@@ -44,6 +41,39 @@ class BetterYoutube():
         Stop the watcher
         """
         self._continue = False
+
+
+    def add_sub(self, channel_id, email):
+        """
+        Add a subscription to channel for email.
+
+        :param str channel_id: the channel ID to subscribe (sometimes takes channel name, don't tell anyone)
+        :param str email: the email address to subscribe with
+
+        :return: if the operation was successful.
+        :rtype: bool
+        """
+        # Just in case we already have the channel. It's easier for the user this way.
+        if channel_id.lower() in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[channel_id.lower()]["subs"]:
+            SUBSCRIPTIONS[channel_id.lower()]["subs"].append(email)
+            return True
+        cname = youtube_utils.get_channel_name(channel_id)
+        if not cname:
+            # Someone probably gave a channel "name" we don't have the ID for yet (or a bad ID)
+            return False
+        cname = cname.lower()
+        if cname in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[cname]["subs"]:
+            SUBSCRIPTIONS[cname]["subs"].append(email)
+            return True
+        if cname not in SUBSCRIPTIONS:
+            SUBSCRIPTIONS[cname] = {
+                "channel_id": channel_id,
+                "subs": [email]
+            }
+            return True
+        # Unknown issue :thinking:
+        return False
+
 
 
     async def parse_feed(self, subsettings):
