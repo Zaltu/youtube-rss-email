@@ -43,9 +43,9 @@ class BetterYoutube():
         self._continue = False
 
 
-    def add_sub(self, channel_id, email):
+    def subscribe(self, channel_id, email):
         """
-        Add a subscription to channel for email.
+        Subscribe a user to a channel. Also schedules a task to write the updated config to disk.
 
         :param str channel_id: the channel ID to subscribe (sometimes takes channel name, don't tell anyone)
         :param str email: the email address to subscribe with
@@ -53,27 +53,28 @@ class BetterYoutube():
         :return: if the operation was successful.
         :rtype: bool
         """
-        # Just in case we already have the channel. It's easier for the user this way.
-        if channel_id.lower() in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[channel_id.lower()]["subs"]:
-            SUBSCRIPTIONS[channel_id.lower()]["subs"].append(email)
-            return True
-        cname = youtube_utils.get_channel_name(channel_id)
-        if not cname:
-            # Someone probably gave a channel "name" we don't have the ID for yet (or a bad ID)
-            return False
-        cname = cname.lower()
-        if cname in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[cname]["subs"]:
-            SUBSCRIPTIONS[cname]["subs"].append(email)
-            return True
-        if cname not in SUBSCRIPTIONS:
-            SUBSCRIPTIONS[cname] = {
-                "channel_id": channel_id,
-                "subs": [email]
-            }
-            return True
-        # Unknown issue :thinking:
-        return False
+        delta = _add_sub(channel_id, email)
+        if delta:
+            asyncio.create_task(save_state(SUBSCRIPTIONS, SUB_PATH))
+        return delta
 
+
+    def unsubscribe(self, channel, email):
+        """
+        Unsubscribe a user from a channel.
+
+        :param str channel: The channel *name* to unsubscribe from
+        :param str email: the user to unsubscribe
+
+        :return: if the operation was successful
+        :rtype: bool
+        """
+        if channel in SUBSCRIPTIONS and email in SUBSCRIPTIONS.get(channel, {}).get("subs", []):
+            SUBSCRIPTIONS[channel]["subs"].remove(email)
+            asyncio.create_task(save_state(SUBSCRIPTIONS, SUB_PATH))
+            return True
+        # Could be the user typoed the channel name too...
+        return False
 
 
     async def parse_feed(self, subsettings):
@@ -111,18 +112,49 @@ class BetterYoutube():
         while self._continue:
             for subscription in SUBSCRIPTIONS:
                 asyncio.create_task(self.parse_feed(SUBSCRIPTIONS[subscription]))
-            asyncio.create_task(save_state())
+            asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
             await asyncio.sleep(30)
 
 
-async def save_state():
+async def save_state(state, path):
     """
-    Write the currently active state. Doing this async to the rest of the calls could cause mismatches
+    Write one of the current states. Doing this async to the rest of the calls could cause mismatches
     if the client stops in edge cases, but we don't care enough.
     """
-    with open(STATE_PATH, 'w+') as statefile:
-        json.dump(ACTIVE_STATE, statefile, indent=4)
+    with open(path, 'w+') as statefile:
+        json.dump(state, statefile, indent=4)
 
+
+def _add_sub(channel_id, email):
+    """
+    Add a subscription to channel for email.
+
+    :param str channel_id: the channel ID to subscribe (sometimes takes channel name, don't tell anyone)
+    :param str email: the email address to subscribe with
+
+    :return: if the operation was successful.
+    :rtype: bool
+    """
+    # Just in case we already have the channel. It's easier for the user this way.
+    if channel_id.lower() in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[channel_id.lower()]["subs"]:
+        SUBSCRIPTIONS[channel_id.lower()]["subs"].append(email)
+        return True
+    cname = youtube_utils.get_channel_name(channel_id)
+    if not cname:
+        # Someone probably gave a channel "name" we don't have the ID for yet (or a bad ID)
+        return False
+    cname = cname.lower()
+    if cname in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[cname]["subs"]:
+        SUBSCRIPTIONS[cname]["subs"].append(email)
+        return True
+    if cname not in SUBSCRIPTIONS:
+        SUBSCRIPTIONS[cname] = {
+            "channel_id": channel_id,
+            "subs": [email]
+        }
+        return True
+    # Unknown issue :thinking:
+    return False
 
 
 def wait_thread():
