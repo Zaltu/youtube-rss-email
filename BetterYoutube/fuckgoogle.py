@@ -11,7 +11,7 @@ from pprint import pprint as pp
 import feedparser
 
 from BetterYoutube import youtube_utils
-#import stmp handler TODO
+#import smtp handler TODO
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
 SUB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "subscriptions.json"))
