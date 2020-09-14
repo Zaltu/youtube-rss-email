@@ -6,6 +6,5 @@ This script keeps up-to-date of new uploads from selectable youtube channels by 
 
 ## TODO
 - Actually implement the SMTP thing. Next week.
-- Add/Remove subscribers during runtime
 - Manage ACTIVE_STATE for new channels
-- Add/Remove channels during runtime
+- Remove channels during runtime
