@@ -11,7 +11,7 @@ with open(SECRET_PATH, 'r') as SECRETFILE:
 BASE_URL = "https://www.googleapis.com/youtube/v3/channels?"
 DEFAULT_SETTINGS = {
     "part": "brandingSettings",
-    "id": "",
+    "id": "UC-lHJZR3Gqxm24_Vd_AJ5Yw",
     "key": SECRET
 }
 
