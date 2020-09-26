@@ -1,0 +1,4 @@
+from yousub import SubToPewdiepie
+
+subtopewdiepie = SubToPewdiepie()
+SKILLS = ["subtopewdiepie"]
