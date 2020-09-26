@@ -71,6 +71,9 @@ class BetterYoutube():
         """
         if channel in SUBSCRIPTIONS and email in SUBSCRIPTIONS.get(channel, {}).get("subs", []):
             SUBSCRIPTIONS[channel]["subs"].remove(email)
+            # No more subs, remove the entry completely
+            if len(SUBSCRIPTIONS[channel]["subs"]) == 0:
+                _kill_channel(channel)
             asyncio.create_task(save_state(SUBSCRIPTIONS, SUB_PATH))
             return True
         # Could be the user typoed the channel name too...
@@ -185,6 +188,18 @@ def _update_state(channel_id):
     ACTIVE_STATE[entry.author.lower()] = entry.id
     asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
 
+
+def _kill_channel(channel_name):
+    """
+    Remove a channel from the subs and active state.
+    No check is made to validate the channel is in there, that should be done upstream.
+
+    :param str channel_name: name of channel to remove
+    """
+    SUBSCRIPTIONS.pop(channel_name)
+    ACTIVE_STATE.pop(channel_name)
+    asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
+    asyncio.create_task(save_state(SUBSCRIPTIONS, SUB_PATH))
 
 def wait_thread():
     """
