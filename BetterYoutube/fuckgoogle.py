@@ -10,7 +10,7 @@ from pprint import pprint as pp
 
 import feedparser
 
-from BetterYoutube import youtube_utils  #pylint: disable=import-error
+import youtube_utils  #pylint: disable=import-error
 #import smtp handler TODO
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
@@ -93,14 +93,16 @@ class BetterYoutube():
             helpfo = {
                 "author": entry.author,
                 "link": entry.link,
-                "title": entry.title
+                "title": entry.title,
+                "id": entry.id
             }
             pp(helpfo)  # TODO send email
             i += 1
         if i != 0:
             print("Updating active state")
             entry = feed.entries[0]
-            ACTIVE_STATE.set_default(entry.author.lower(), entry.id)
+            ACTIVE_STATE[entry.author.lower()] = entry.id
+            print("Active state updated")
 
 
     async def parse_subscriptions(self):
@@ -110,9 +112,16 @@ class BetterYoutube():
         to put the sleeper in the individual feed parsers.
         """
         while self._continue:
+            print("Parsing subscriptions")
             for subscription in SUBSCRIPTIONS:
-                asyncio.create_task(self.parse_feed(SUBSCRIPTIONS[subscription]))
-            asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
+                print("Parsing %s" % subscription)
+                await self.parse_feed(SUBSCRIPTIONS[subscription])
+            # Wait for all subs to be processed.
+            #print("Waiting for all subs to be processed")
+            #await asyncio.gather(*asyncio.all_tasks())
+            print("Done, saving state...")
+            await save_state(ACTIVE_STATE, STATE_PATH)
+            print("State saved, sleeping...")
             await asyncio.sleep(30)
 
 
@@ -173,7 +182,7 @@ def _update_state(channel_id):
     entry = feed.entries[0]
     # Don't send emails here.
     print("Updating active state")
-    ACTIVE_STATE.set_default(entry.author.lower(), entry.id)
+    ACTIVE_STATE[entry.author.lower()] = entry.id
     asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
 
 
