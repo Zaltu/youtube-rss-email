@@ -10,7 +10,7 @@ from pprint import pprint as pp
 
 import feedparser
 
-from BetterYoutube import youtube_utils
+from BetterYoutube import youtube_utils  #pylint: disable=import-error
 #import smtp handler TODO
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
@@ -139,6 +139,9 @@ def _add_sub(channel_id, email):
     if channel_id.lower() in SUBSCRIPTIONS and email not in SUBSCRIPTIONS[channel_id.lower()]["subs"]:
         SUBSCRIPTIONS[channel_id.lower()]["subs"].append(email)
         return True
+    # If the user is already subbed
+    if channel_id.lower() in SUBSCRIPTIONS and email in SUBSCRIPTIONS[channel_id.lower()]["subs"]:
+        return False
     cname = youtube_utils.get_channel_name(channel_id)
     if not cname:
         # Someone probably gave a channel "name" we don't have the ID for yet (or a bad ID)
@@ -152,9 +155,26 @@ def _add_sub(channel_id, email):
             "channel_id": channel_id,
             "subs": [email]
         }
+        # We're adding a new channel, so we need to make sure we set a "latest video"
+        _update_state(channel_id)
         return True
     # Unknown issue :thinking:
     return False
+
+
+def _update_state(channel_id):
+    """
+    Fetch just the latest video of a channel and set the state to it. No notifications or anything.
+
+    :param str channel_id: channel ID to update
+    """
+    feed = feedparser.parse(BASE_URL+channel_id)
+
+    entry = feed.entries[0]
+    # Don't send emails here.
+    print("Updating active state")
+    ACTIVE_STATE.set_default(entry.author.lower(), entry.id)
+    asyncio.create_task(save_state(ACTIVE_STATE, STATE_PATH))
 
 
 def wait_thread():
