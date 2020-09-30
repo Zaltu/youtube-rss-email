@@ -143,6 +143,7 @@ async def _send_email(info, recipients):
     Send email to sub.
     """
     # TODO parse info into prettier format
+    print("Sending email to %s" % str(recipients))
     aigis.emailtools.simple_email(
         sender="zaltu@aigis.dev",
         recipient=recipients,
