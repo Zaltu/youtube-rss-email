@@ -138,14 +138,14 @@ async def save_state(state, path):
     print("State saved")
 
 
-async def _send_email(info, recipiants):
+async def _send_email(info, recipients):
     """
     Send email to sub.
     """
     # TODO parse info into prettier format
     aigis.emailtools.simple_email(
         sender="zaltu@aigis.dev",
-        recipiant=recipiants,
+        recipient=recipients,
         subject="%s has uploaded a new video" % info["author"],
         message=info["title"] + "\n" + info["link"]
     )
