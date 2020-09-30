@@ -10,8 +10,8 @@ from pprint import pprint as pp
 
 import feedparser
 
-import youtube_utils  #pylint: disable=import-error
-#import smtp handler TODO
+import youtube_utils
+import aigis  #pylint: disable=import-error
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
 SUB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "subscriptions.json"))
@@ -57,8 +57,6 @@ class OompaLoompa():
         feed = feedparser.parse(BASE_URL+subsettings["channel_id"])
 
         i = 0
-        #print("Current ID: %s" % feed.entries[i].id)
-        #print("Matching to ID %s" % ACTIVE_STATE.get(feed.entries[i].author.lower(), ""))
         while feed.entries[i].id not in self.ACTIVE_STATE.get(feed.entries[i].author.lower(), ""):
             entry = feed.entries[i]
             helpfo = {
@@ -67,7 +65,8 @@ class OompaLoompa():
                 "title": entry.title,
                 "id": entry.id
             }
-            pp(helpfo)  # TODO send email
+            # Queue an email send. Doesnt need to happen now /shrug
+            asyncio.create_task(_send_email(helpfo, subsettings["subs"]))
             i += 1
         if i != 0:
             print("Updating active state")
@@ -137,6 +136,19 @@ async def save_state(state, path):
     with open(path, 'w+') as statefile:
         json.dump(state, statefile, indent=4)
     print("State saved")
+
+
+async def _send_email(info, recipiants):
+    """
+    Send email to sub.
+    """
+    # TODO parse info into prettier format
+    aigis.emailtools.simple_email(
+        sender="zaltu@aigis.dev",
+        recipiant=recipiants,
+        subject="%s has uploaded a new video" % info["author"],
+        message=info["title"] + "\n" + info["link"]
+    )
 
 
 def wait_thread():
