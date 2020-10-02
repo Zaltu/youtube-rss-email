@@ -57,6 +57,7 @@ class OompaLoompa():
         feed = feedparser.parse(BASE_URL+subsettings["channel_id"])
 
         i = 0
+        print(feed.entries[0])
         print("At %s" % feed.entries[0].id)
         print("Looking for %s" % self.ACTIVE_STATE.get(feed.entries[0].author.lower(), ""))
         while feed.entries[i].id not in self.ACTIVE_STATE.get(feed.entries[i].author.lower(), ""):
