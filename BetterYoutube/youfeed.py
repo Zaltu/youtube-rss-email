@@ -11,7 +11,7 @@ from pprint import pprint as pp
 import feedparser
 
 import youtube_utils
-import aigis  #pylint: disable=import-error
+#import aigis  #pylint: disable=import-error
 
 STATE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "state.json"))
 SUB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "config", "subscriptions.json"))
@@ -57,7 +57,11 @@ class OompaLoompa():
         feed = feedparser.parse(BASE_URL+subsettings["channel_id"])
 
         i = 0
+        print("At %s" % feed.entries[0].id)
+        print("Looking for %s" % self.ACTIVE_STATE.get(feed.entries[0].author.lower(), ""))
         while feed.entries[i].id not in self.ACTIVE_STATE.get(feed.entries[i].author.lower(), ""):
+            print("At %s" % feed.entries[i].id)
+            print("Looking for %s" % self.ACTIVE_STATE.get(feed.entries[i].author.lower(), ""))
             entry = feed.entries[i]
             helpfo = {
                 "author": entry.author,
@@ -144,12 +148,12 @@ async def _send_email(info, recipients):
     """
     # TODO parse info into prettier format
     print("Sending email to %s" % str(recipients))
-    aigis.emailtools.simple_email(
-        sender="zaltu@aigis.dev",
-        recipient=recipients,
-        subject="%s has uploaded a new video" % info["author"],
-        message=info["title"] + "\n" + info["link"]
-    )
+    #aigis.emailtools.simple_email(
+    #    sender="zaltu@aigis.dev",
+    #    recipient=recipients,
+    #    subject="%s has uploaded a new video" % info["author"],
+    #    message=info["title"] + "\n" + info["link"]
+    #)
 
 
 def wait_thread():
